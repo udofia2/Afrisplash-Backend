@@ -63,6 +63,7 @@ exports.register = asyncHandler(async (req, res, next) => {
       session.endSession();
       sendTokenResponse(user, 200, res);
     } catch (error) {
+      console.log(error)
       session.endSession();
       next(error);
     }
