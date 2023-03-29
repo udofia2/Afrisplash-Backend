@@ -74,7 +74,7 @@ its contain a the `Foreign key` Pointing to the `auth table`
 | Password | 64bit(Hash)- Require - True  |
 | Friends | Array[Obejct]|
 | Company_ID | FOREIGN_KEY table(company) |
-| Company_ROLE | Array[String] |
+| Company_ROLE | String |
 | Extra_Email | String - Require - False |
 | Notifications | [FOREIGN_KEY table(notifications)]|
 | Gifts | [FOREIGN_KEY table(gift)]|
@@ -88,22 +88,23 @@ This Table Manages The Companies Registered
 | Attribute       | Type        
 | ------------- |:-------------:| 
 | Name     | String - Require - True|
-| Website    | String/URL - Require - True|
 | Logo     | String/URL - Require - True|
-| Last Name     | String - Require - True|
+| thumbnail     | String/URL - Require - True|
+| Website    | String/URL - Require - False|
 | Location     | String - Require - True|
-| Co-Ordinate     | String - Require - True|
+| map     | String - Require - false|
 | Market     | Array[String] - Require - True|
-| Number_Of_Employee     | Number - Require - True |
+| Number_Of_Employee(Staff)     | Number - Require - True |
+| Team_Members   (Members)  | Array[ObjectID] - Require - True |
 | One_Line_Pitch    | String - Require - True|
-| Team_Members     | Array[Object] - Require - True |
+| Description (About)    | String - Require - False|
 |<!--Company Contact-->|
 | Email | String - Require - True |
 | Phone | String/Number - Require - True |
-| About     | String - Require - False|
 | Socials | Array[Object] |
 | Verify | Boolean - Require - True |
-| Hide_Detail | Boolean - Require - True |
+| CreateBy | FOREIGN_KEY table(user)|
+| invites     | Array[String] - Require - True|
 
 ### 4. Sponsor
 
@@ -153,3 +154,84 @@ This Table Manages The Gift Avaliable For A User Or Company
 | Created | Date  |
 | Expire | Date  |
 | For | schema {Object}  |
+
+
+### 7. Jobs
+<!-- I am tempeted to host this data on a different server -->
+This Table Manages The Jobs Created Registered  
+
+| Attribute       | Type        
+| ------------- |:-------------:| 
+| Name     | String - Require - True|
+| Website    | String/URL - Require - True|
+| Logo     | String/URL - Require - True|
+| Level     | String - Require - True|
+| Location     | String - Require - True|
+| Type     | String - Require - True|
+| Salary | String - Require - True |//
+| Market     | Array[String] - Require - True|
+| Number_Of_Employee     | Number - Require - True|//
+| One_Line_Pitch    | String - Require - True|
+| Salary     | Array[Object] - Require - True |
+| Phone | String/Number - Require - True|
+| About     | String - Require - False|
+| Socials | Array[Object] |
+| Private | Boolean - Require - True |
+| Verify | Boolean - Require - True |
+| _Author | PRIMARY_KEY table(user)|
+| _comapny | FOREIGN_KEY table(company)|
+
+
+### 8. Post Table (Blog)
+
+This Table is for blogs hosted on the system   
+
+| Attribute       | Type        
+| ------------- |:-------------:| 
+| _ID | PRIMARY_KEY table(SELF)|
+| _Author | FOREIGN_KEY table(user)|
+| _content | FOREIGN_KEY table(post_body)|
+| Title     | String - Require - True|
+| Url     | String - Require - True|
+| Categories    | String - Require - True|
+| Tags | Array[string] |
+| Summary     | String - Require - True|
+| Read_Time     | Number - Require - True |
+| Cover_Image     | String/URL - Require - True|
+| Thumbnail     | String/URL - Require - True|
+| veiws     | Number - Require - True |
+| Created_at | Date  |
+| Update_at | Date  |
+| Disable_Comment | Boolean - Require - True |
+
+
+### 9. Comment (Blog)
+
+This Table Manages Of A Post Single Chainning   
+
+| Attribute       | Type        
+| ------------- |:-------------:| 
+| _ID | PRIMARY_KEY table(SELF)|
+| _post | FOREIGN_KEY table(post)|
+| body    | String - Require - True|
+| Replies | Array[Object] |
+| Likes | Number  |
+| Created | Date  |
+| user | Object |
+
+
+
+### 10. Post Content (blog)
+
+This Contain the content or body of a blog  
+<!--Reason
+    Since the front end is using a WYSIWYG package
+    image, video and other assest would / might be converted to a 64 bit 
+    So it would make a row appromixate greater than > 5mb if not correctly optimized 
+   -->
+
+| Attribute       | Type        
+| ------------- |:-------------:| 
+| _ID | PRIMARY_KEY table(SELF)|
+| _post | FOREIGN_KEY table(post) |
+| Message     | String - Require - False|
